@@ -1,5 +1,5 @@
 {
-  "name": "@rabbitcc/core",
+  "name": "@rabbitcc/faker",
   "version": "0.0.1",
   "description": "A log tool",
   "main": "index.js",
@@ -15,8 +15,7 @@
   "author": "Rabbit<yfhj1990@hotmail.com>",
   "license": "GPL-3.0",
   "files": [
-    "index.js",
-    "choose.js"
+    "index.js"
   ],
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.49",
