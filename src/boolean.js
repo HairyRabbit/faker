@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { pickOne } from './'
+import { pickOne, repeat } from './'
 
 export const db = [ true, false ]
 
@@ -21,6 +21,6 @@ import assert from 'assert'
 
 describe('random boolean', function() {
   it('should gen random boolean', function() {
-    assert(~db.indexOf(boolean()))
+    repeat(10, () => assert(~db.indexOf(boolean())))
   })
 })

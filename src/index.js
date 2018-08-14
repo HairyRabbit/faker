@@ -4,11 +4,17 @@
  * @flow
  */
 
-export function random(min = 0, max = Number.MAX_SAFE_INTEGER): number {
-  return Math.floor(Math.random() * (max - min + 1) + min)
+export function random(min: number = 0, max: number = Number.MAX_SAFE_INTEGER, floor?: boolean = true): number {
+  const gen = Math.random() * (max - min + 1) + min
+
+  if(floor) {
+    return Math.floor(gen)
+  }
+
+  return gen
 }
 
-export function repeat<R>(num: number = 1, func: ?number => R): R {
+export function repeat<R>(num: number = 1, func: ?number => R): void {
   for(let i = 0; i < num; i++) {
     func(i)
   }
