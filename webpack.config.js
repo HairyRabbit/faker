@@ -6,7 +6,10 @@ export default {
   entry: './src/index.js',
   output: {
     path: path.resolve('.'),
-    filename: 'index.js'
+    filename: 'index.js',
+    library: 'Faker',
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   module: {
     rules: [{
