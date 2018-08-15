@@ -12,7 +12,7 @@ export type Options = {
   float?: boolean
 }
 
-export default function number({ min, max, float = true }: Options = {}): number {
+export default function number({ min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, float = true }: Options = {}): number {
   return random(min, max, !float)
 }
 
