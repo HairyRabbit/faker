@@ -4,20 +4,60 @@
  * @flow
  */
 
-export function random(min: number = 0, max: number = Number.MAX_SAFE_INTEGER, floor?: boolean = true): number {
-  const gen = Math.random() * (max - min + 1) + min
+/**
+ * exports
+ */
 
+/**
+ * basic
+ */
+export { default as boolean } from './boolean'
+export { default as number } from './number'
+export { default as float } from './float'
+
+/**
+ * person
+ */
+export { default as firstname } from './firstname'
+export { default as lastname } from './lastname'
+export { default as fullname } from './fullname'
+
+
+/**
+ * utils
+ */
+
+export function random(min: number = 0, max: number = Number.MAX_SAFE_INTEGER, floor?: boolean = true): number {
   if(floor) {
-    return Math.floor(gen)
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  return gen
+  return Math.random() * (max - min) + min
 }
 
-export function repeat<R>(num: number = 1, func: ?number => R): void {
-  for(let i = 0; i < num; i++) {
-    func(i)
+const seeds = new Map()
+
+export function seed<K>(key: K) {
+  const val = seeds.get(key)
+
+  return function seed1(min?: number, max?: number, floor?: boolean): number {
+    if(val) {
+      return val
+    }
+
+    const gen = random(min, max, floor)
+    seeds.set(key, gen)
+    return gen
   }
+}
+
+
+export function repeat<R>(num: number = 1, func: ?number => R): Array<R> {
+  const acc = []
+  for(let i = 0; i < num; i++) {
+    acc.push(func(i))
+  }
+  return acc
 }
 
 export function pick<I>(num: number = 1, arr: Array<I> = [], unique?: boolean = true): Array<I> {
@@ -54,14 +94,14 @@ export function pick<I>(num: number = 1, arr: Array<I> = [], unique?: boolean = 
       return
     }
 
-    (function recur(next = gen) {
+    (function recur(next) {
       if(!Boolean(~idx.indexOf(next))) {
         idx.push(next)
         return
       }
 
       return recur(random(0, len - 1))
-    })()
+    })(gen)
   })
 
   /**
@@ -76,12 +116,9 @@ export function pick<I>(num: number = 1, arr: Array<I> = [], unique?: boolean = 
   return coll
 }
 
-export function pickOne<T>(arr: Array<T>): T {
+export function oneof<T>(arr: Array<T>): T {
   return pick(1, arr)[0]
 }
-
-
-
 
 
 /**
@@ -120,6 +157,13 @@ describe('repeat()', function() {
     repeat(undefined, () => counter++)
     assert(counter === 1)
   })
+
+  it('should collect function call return values', function() {
+    assert.deepStrictEqual(
+      repeat(3, () => 42),
+      [42, 42, 42]
+    )
+  })
 })
 
 describe('pick()', function() {
@@ -150,5 +194,12 @@ describe('pick()', function() {
         assert(gen[i] !== gen[j])
       }
     }
+  })
+})
+
+describe('seed()', function() {
+  it(`should return value with same seed`, function() {
+    const key = random()
+    assert(seed(key)() === seed(key)())
   })
 })

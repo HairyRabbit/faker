@@ -6,7 +6,13 @@
 
 import { random, repeat } from './'
 
-export default function number(min?: number = Number.MIN_SAFE_INTEGER, max?: number = Number.MAX_SAFE_INTEGER, float?: boolean = true): number {
+export type Options = {
+  min?: number,
+  max?: number,
+  float?: boolean
+}
+
+export default function number({ min, max, float = true }: Options = {}): number {
   return random(min, max, !float)
 }
 
@@ -19,19 +25,19 @@ import assert from 'assert'
 
 describe('random number', function() {
   it('should gen random number', function() {
-    repeat(10, () => {
+    repeat(100, () => {
       const gen = number()
-      assert(
-        gen >= Number.MIN_SAFE_INTEGER && gen <= Number.MAX_SAFE_INTEGER
-      )
+      assert(gen)
+      assert(typeof gen === 'number')
+      assert(gen >= Number.MIN_SAFE_INTEGER && gen <= Number.MAX_SAFE_INTEGER)
     })
   })
 
-  it('should gen random number within range', function() {
-    repeat(10, () => {
-      const min = -100
-      const max = +100
-      const gen = number(min, max)
+  it('should gen random number in range', function() {
+    repeat(100, () => {
+      const min = 1
+      const max = 2
+      const gen = number({ min, max })
       assert(gen >= min && gen <= max)
     })
   })

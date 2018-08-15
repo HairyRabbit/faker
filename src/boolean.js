@@ -4,12 +4,12 @@
  * @flow
  */
 
-import { pickOne, repeat } from './'
+import { oneof, repeat } from './'
 
 export const db = [ true, false ]
 
 export default function boolean(): boolean {
-  return pickOne(db)
+  return oneof(db)
 }
 
 
