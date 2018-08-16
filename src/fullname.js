@@ -15,12 +15,12 @@ export type Options = {
   ...LastNameOptions
 }
 
-export default function fullname({ firstname, lastname, locale, sex, len }: Options = {}): string {
+export default function fullname({ firstname, lastname, locale, gender, length }: Options = {}): string {
   const loc = locale || oneof(['en', 'zh'])
 
   const [first, last] =  [
     firstname || createFirstname({ locale: loc }),
-    lastname || createLastname({ locale: loc, sex, len })
+    lastname || createLastname({ locale: loc, gender, length })
   ]
 
   /**

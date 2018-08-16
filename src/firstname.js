@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { pick, oneof, repeat } from './'
+import { pick, oneof, repeat, type Locale } from './'
 
 const db = {
   en: {
@@ -110,19 +110,19 @@ const db = {
 }
 
 export type Options = {
-  locale?: 'en' | 'zh',
-  sex?: 1 | 2,
-  len?: 1 | 2
+  locale?: Locale,
+  gender?: 1 | 2,
+  length?: 1 | 2
 }
 
-export default function firstname({ locale, sex, len }: Options = {}): string {
+export default function firstname({ locale, gender, length }: Options = {}): string {
   const loc = locale || oneof(Object.keys(db))
   const num = loc === 'en'
         ? 1
-        : (len || oneof([1, 2]))
-  const psex = sex || oneof([1, 2])
+        : (length || oneof([1, 2]))
+  const sex = gender || oneof([1, 2])
 
-  return pick(num, db[loc][psex]).join('')
+  return pick(num, db[loc][sex]).join('')
 }
 
 
@@ -146,12 +146,12 @@ describe('random firstname', function() {
   })
 
   it('should gen firstname with sex options', function() {
-    const gen = firstname({ locale: 'en', sex: 2 })
+    const gen = firstname({ locale: 'en', gender: 2 })
     assert(~db.en[2].indexOf(gen))
   })
 
   it('should gen firstname with len options', function() {
-    const gen = firstname({ locale: 'zh', len: 2 })
+    const gen = firstname({ locale: 'zh', length: 2 })
     assert(gen.length === 2)
   })
 })

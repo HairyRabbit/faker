@@ -16,6 +16,15 @@ export { default as number } from './number'
 export { default as float } from './float'
 
 /**
+ * text
+ */
+export { default as char } from './char'
+export { default as word } from './word'
+export { default as sentence } from './sentence'
+export { default as paragraph } from './paragraph'
+
+
+/**
  * person
  */
 export { default as firstname } from './firstname'
@@ -52,7 +61,7 @@ export function seed<K>(key: K) {
 }
 
 
-export function repeat<R>(num: number = 1, func: ?number => R): Array<R> {
+export function repeat<R>(num: number = 1, func: number => R): Array<R> {
   const acc = []
   for(let i = 0; i < num; i++) {
     acc.push(func(i))
@@ -119,6 +128,19 @@ export function pick<I>(num: number = 1, arr: Array<I> = [], unique?: boolean = 
 export function oneof<T>(arr: Array<T>): T {
   return pick(1, arr)[0]
 }
+
+export function range(from: number, to: number): Array<Number> {
+  return Array(to - from + 1).fill(1).map((_, idx) => idx + from)
+}
+
+
+/**
+ * types
+ */
+
+export type Locale =
+  | 'en'
+  | 'zh'
 
 
 /**
