@@ -230,17 +230,23 @@ export const db = [
 ]
 
 export type Options = {
-  locale: Locale
+  locale: Locale,
+  min: number,
+  max: number
 }
 
-export default function word({ locale }: Options = {}): string {
+export default function word({ locale, min, max }: Options = {}): string {
   const loc = locale || oneof(['en', 'zh'])
+  const [ lmin, lmax ] = 'en' === loc ? [3, 6] : [1, 4]
+  const [ emin, emax ] = [ min || lmin, max || lmax ]
+  // console.log([ Math.max(emin, lmax), Math.min(emax, lmin) ])
+  const rge = range.apply(null, [ Math.max(emin, lmax), Math.max(emax, lmin, emin) ])
 
   if('en' === loc) {
-    return repeat(oneof(range(3, 5)), () => char({ upcase: false })).join('')
+    return repeat(oneof(rge), () => char({ upcase: false })).join('')
   }
 
-  return repeat(oneof(range(2, 4)), () => oneof(db)).join('')
+  return repeat(oneof(rge), () => oneof(db)).join('')
 }
 
 
@@ -257,4 +263,23 @@ describe('random word', function() {
       assert(gen)
     })
   })
+
+  it('should gen random word with locale options', function() {
+    repeat(100, () => {
+      const gen = word({ locale: 'en' })
+      assert(/[a-z]+/.test(gen))
+      const gen2 = word({ locale: 'zh' })
+      assert(!/[a-z]+/.test(gen2))
+    })
+  })
+
+  it('should gen random word with min options', function() {
+    repeat(100, () => {
+      const gen = word({ min: 5 })
+      // console.log(gen)
+      assert(gen.length >= 5)
+    })
+  })
+
+
 })

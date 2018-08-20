@@ -34,13 +34,13 @@ import assert from 'assert'
 describe('random char', function() {
   it('should gen random char', function() {
     repeat(100, () => {
-      assert(/[a-zA-Z]/.test(char()))
+      assert(/[a-zA-Z]+/.test(char()))
     })
   })
 
   it('should gen random char and uppercase', function() {
     repeat(100, () => {
-      assert(/[A-Z]/.test(char({ upcase: true })))
+      assert(/[A-Z]+/.test(char({ upcase: true })))
     })
   })
 })

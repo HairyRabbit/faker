@@ -6,9 +6,9 @@
 
 import { oneof, repeat } from './'
 
-export const db = [ true, false ]
+export const db  = [ true, false ]
 
-export default function boolean(): boolean {
+export default function boolean() {
   return oneof(db)
 }
 
@@ -21,6 +21,8 @@ import assert from 'assert'
 
 describe('random boolean', function() {
   it('should gen random boolean', function() {
-    repeat(10, () => assert(~db.indexOf(boolean())))
+    repeat(100, () => {
+      assert(~db.indexOf(boolean()))
+    })
   })
 })

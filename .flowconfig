@@ -5,11 +5,11 @@
 <PROJECT_ROOT>/lib/.*
 <PROJECT_ROOT>/bin/.*
 <PROJECT_ROOT>/tests/.*
-<PROJECT_ROOT>/node_modules/.*
-
+<PROJECT_ROOT>/assets/.*
+# <PROJECT_ROOT>/node_modules/.*
 
 [include]
-
+# <PROJECT_ROOT>/node_modules/@rabbitcc/core/.*
 
 [libs]
 

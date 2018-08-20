@@ -23,13 +23,17 @@ export { default as word } from './word'
 export { default as sentence } from './sentence'
 export { default as paragraph } from './paragraph'
 
-
 /**
  * person
  */
 export { default as firstname } from './firstname'
 export { default as lastname } from './lastname'
 export { default as fullname } from './fullname'
+
+/**
+ * others
+ */
+export { default as avatar } from './avatar'
 
 
 /**
@@ -70,24 +74,26 @@ export function repeat<R>(num: number = 1, func: number => R): Array<R> {
 }
 
 export function pick<I>(num: number = 1, arr: Array<I> = [], unique?: boolean = true): Array<I> {
+  if(num < 1) {
+    throw new Error(
+      `should pick more then one element, but got "num" was ${num}`
+    )
+  }
+
   const len = arr.length
 
   if(len < num) {
     throw new Error(
-      'picked numner should less then array length'
+      `picked numner should less then array length, ${len} < ${num}`
     )
-  }
-
-  if(0 === len) {
-    return []
-  }
-
-  if(1 === len) {
-    return [arr[random(0, len - 1)]]
   }
 
   if(num === len) {
     return arr
+  }
+
+  if(1 === num) {
+    return [arr[random(0, len - 1)]]
   }
 
   /**
@@ -131,6 +137,26 @@ export function oneof<T>(arr: Array<T>): T {
 
 export function range(from: number, to: number): Array<Number> {
   return Array(to - from + 1).fill(1).map((_, idx) => idx + from)
+}
+
+export type ChooseOptions = {
+  test?: string | RegExp,
+  include?: Array<string>,
+  exclude?: Array<string>
+}
+
+export function choose({ test, include = [], exclude = [] }: ChooseOptions = {}) {
+  const call = test
+        ? ('string' === typeof test
+           ? (a => a === String(test))
+           : (a => test.test(a)))
+        : (a => true)
+
+  return function choose1(collects: Array<string>): Array<string> {
+    return collects
+      .filter(item => call(item) && Boolean(!~exclude.indexOf(item)))
+      .concat(include)
+  }
 }
 
 
@@ -191,10 +217,6 @@ describe('repeat()', function() {
 describe('pick()', function() {
   it('should pick element from array', function() {
     assert(pick(3, [1, 2, 3, 4]).length === 3)
-  })
-
-  it('should pick element from empty array', function() {
-    assert.deepStrictEqual(pick(0, []), [])
   })
 
   it('should pick element from only one array', function() {

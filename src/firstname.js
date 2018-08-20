@@ -117,9 +117,7 @@ export type Options = {
 
 export default function firstname({ locale, gender, length }: Options = {}): string {
   const loc = locale || oneof(Object.keys(db))
-  const num = loc === 'en'
-        ? 1
-        : (length || oneof([1, 2]))
+  const num = loc === 'en' ? 1 : (length || oneof([1, 2]))
   const sex = gender || oneof([1, 2])
 
   return pick(num, db[loc][sex]).join('')

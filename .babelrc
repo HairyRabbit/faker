@@ -12,6 +12,10 @@
       }
     ]
   ],
+  "only": [
+    "src",
+    "node_modules"
+  ],
   "plugins": [
     [
       "@babel/plugin-proposal-class-properties",
@@ -29,6 +33,9 @@
   ],
   "env": {
     "test": {
+      "presets": [
+        "power-assert"
+      ],
       "plugins": [
         "@babel/plugin-transform-modules-commonjs"
       ]

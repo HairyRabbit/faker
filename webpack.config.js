@@ -14,6 +14,7 @@ export default {
   module: {
     rules: [{
       test: /.js$/,
+      exclude: [],
       use: 'babel-loader'
     }]
   },

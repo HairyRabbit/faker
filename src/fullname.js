@@ -19,8 +19,8 @@ export default function fullname({ firstname, lastname, locale, gender, length }
   const loc = locale || oneof(['en', 'zh'])
 
   const [first, last] =  [
-    firstname || createFirstname({ locale: loc }),
-    lastname || createLastname({ locale: loc, gender, length })
+    firstname || createFirstname({ locale: loc, gender, length}),
+    lastname || createLastname({ locale: loc })
   ]
 
   /**
