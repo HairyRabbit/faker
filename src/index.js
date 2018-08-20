@@ -13,7 +13,13 @@
  */
 export { default as boolean } from './boolean'
 export { default as number } from './number'
+
+/**
+ * number
+ */
 export { default as float } from './float'
+export { default as integer } from './integer'
+export { default as natural } from './natural'
 
 /**
  * text
@@ -164,12 +170,13 @@ export type Options<T> = {
   weight?: Array<[T, number]>,
   test?: T | RegExp,
   include?: Array<T>,
-  exlcude?: Array<T>
+  exlcude?: Array<T>,
+  times?: number
 }
 
 export type CreateOptions<T, O> = {
   name: string,
-  selector?: ((DB<T>, O) => Array<T>),
+  selector?: ((DB<T>, O) => (Array<T> | [Array<T>, (Array<T> => Array<T>)])),
   db?: DB<T>
 }
 
@@ -191,6 +198,7 @@ export function createFaker<T, O>({ name, db, selector = a => a }) {
 
   return function createFaker1(options: O = {}): T {
     const { locale, weight, test, include, exclude } = options
+
     let data = db
 
     if(!db) {
@@ -218,7 +226,17 @@ export function createFaker<T, O>({ name, db, selector = a => a }) {
     /**
      * select sub set
      */
-    data = selector(data, options)
+    const res = selector(data, options)
+
+    let proc = oneof
+
+    if(res.data) {
+      data = res.data
+      proc = res.proc
+    } else {
+      data = res
+    }
+
     /**
      * apply choose, ensure more then one element in the dataset.
      */
@@ -277,7 +295,7 @@ export function createFaker<T, O>({ name, db, selector = a => a }) {
       data = choose({ exclude: keys })(data)
     }
 
-    return oneof(data)
+    return proc(data)
   }
 }
 

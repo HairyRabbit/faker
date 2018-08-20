@@ -6,9 +6,10 @@
 
 import { repeat, createFaker } from './'
 
-export const db  = [ true, false ]
+const db  = [ true, false ]
+const faker = createFaker({ db })
 
-export default createFaker({ db })
+export default faker
 
 
 /**
@@ -18,8 +19,6 @@ export default createFaker({ db })
 import assert from 'assert'
 
 describe('random boolean', function() {
-  const faker = createFaker({ db })
-
   it('should gen random boolean', function() {
     repeat(100, () => {
       const gen = faker()

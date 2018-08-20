@@ -6,7 +6,8 @@
 
 import { repeat, createFaker } from './'
 
-export default createFaker({ name: 'lastname' })
+const faker = createFaker({ name: 'lastname' })
+export default faker
 
 
 /**
@@ -16,8 +17,6 @@ export default createFaker({ name: 'lastname' })
 import assert from 'assert'
 
 describe('random lastname', function() {
-  const faker = createFaker({ name: 'lastname' })
-
   it('should gen lastname', function() {
     repeat(100, () => {
       const gen = faker()
