@@ -5,8 +5,8 @@ faker
 
 - basic
   - [x] `boolean()`
-  - [x] `number({ min, max float })`
 - number
+  - [x] `number({ min, max float })`
   - [x] `float({ min, max, fixed })`
   - [x] `integer({ min, max })`
   - [x] `natural({ min, max })`
