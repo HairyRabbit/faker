@@ -22,9 +22,17 @@ export { default as integer } from './integer'
 export { default as natural } from './natural'
 
 /**
- * text
+ * string
  */
 export { default as char } from './char'
+export { default as string } from './string'
+export { default as letter } from './letter'
+export { default as symbol } from './symbol'
+
+
+/**
+ * text
+ */
 export { default as word } from './word'
 export { default as sentence } from './sentence'
 export { default as paragraph } from './paragraph'

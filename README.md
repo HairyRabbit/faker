@@ -10,6 +10,11 @@ faker
   - [x] `float({ min, max, fixed })`
   - [x] `integer({ min, max })`
   - [x] `natural({ min, max })`
+- string
+  - [x] `char()`
+  - [x] `string({ min, max })`
+  - [x] `letter({ upcase })`
+  - [x] `symbol()`
 - text
   - [x] `char({ upcase })`
   - [x] `word({ locale })`

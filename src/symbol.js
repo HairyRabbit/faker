@@ -4,13 +4,13 @@
  * @flow
  */
 
-import { repeat, pick, oneof } from './'
+import { repeat, pick, oneof, createFaker, typeof Options as FakerOptions } from './'
 
-export const db = '!@#$%^&*._+~,?'
+export const db = '!@#$%^&*._+~,?'.split('')
 
-export default function symbol(): string {
-  return oneof(db)
-}
+const faker = createFaker({ db })
+
+export default faker
 
 
 /**
@@ -22,7 +22,8 @@ import assert from 'assert'
 describe('random symbol', function() {
   it('should gen random symbol', function() {
     repeat(100, () => {
-      assert(Boolean(~db.indexOf(symbol())))
+      const gen = faker()
+      assert(Boolean(~db.indexOf(gen)))
     })
   })
 })
