@@ -22,7 +22,9 @@ describe('random boolean', function() {
 
   it('should gen random boolean', function() {
     repeat(100, () => {
-      assert(~db.indexOf(faker()))
+      const gen = faker()
+      assert('boolean' === typeof gen)
+      assert(~db.indexOf(gen))
     })
   })
 })

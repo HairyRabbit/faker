@@ -13,7 +13,7 @@ export type Options = {
   fixed?: number
 }
 
-export default function float({ min, max, fixed }: Options = {}): number {
+export default function float({ min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, fixed }: Options = {}): number {
   const gen = number({ min, max })
 
   if(!fixed) {
@@ -51,6 +51,7 @@ describe('random float', function() {
   it('should gen random float fixed', function() {
     repeat(100, () => {
       const gen = float({ min: 0, max: 1, fixed: 3 })
+      assert('number' === typeof gen)
       assert(gen.toString().length <= 5)
     })
   })

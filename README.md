@@ -6,7 +6,10 @@ faker
 - basic
   - [x] `boolean()`
   - [x] `number({ min, max float })`
+- number
   - [x] `float({ min, max, fixed })`
+  - [x] `integer({ min, max })`
+  - [x] `natural({ min, max })`
 - text
   - [x] `char({ upcase })`
   - [x] `word({ locale })`

@@ -12,7 +12,7 @@ export type Options = {
   float?: boolean
 }
 
-export default function number({ min = Number.MIN_SAFE_INTEGER, max = Number.MAX_SAFE_INTEGER, float = true }: Options = {}): number {
+export default function number({ min = Number.MIN_VALUE, max = Number.MAX_VALUE, float = true }: Options = {}): number {
   return random(min, max, !float)
 }
 
@@ -29,7 +29,7 @@ describe('random number', function() {
       const gen = number()
       assert(gen)
       assert(typeof gen === 'number')
-      assert(gen >= Number.MIN_SAFE_INTEGER && gen <= Number.MAX_SAFE_INTEGER)
+      assert(gen >= Number.MIN_VALUE && gen <= Number.MAX_VALUE)
     })
   })
 
