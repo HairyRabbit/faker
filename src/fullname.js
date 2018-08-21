@@ -4,16 +4,14 @@
  * @flow
  */
 
-import { pick, oneof, repeat } from './'
+import { pick, oneof, repeat, type Options as FakerOptions } from './'
 import createFirstname, { type Options as FirstNameOptions } from './firstname'
-import createLastname, { type Options as LastNameOptions } from './lastname'
+import createLastname from './lastname'
 
 export type Options = {
   firstname?: string,
-  lastname?: string,
-  ...FirstNameOptions,
-  ...LastNameOptions
-}
+  lastname?: string
+} & FirstNameOptions & FakerOptions<string>
 
 export default function fullname({ firstname, lastname, locale, gender, length }: Options = {}): string {
   const loc = locale || oneof(['en', 'zh'])

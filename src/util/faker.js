@@ -4,27 +4,29 @@
  * @flow
  */
 
-import { oneof, choose, random } from '../'
+import { oneof, choose, random, type ChooseOptions } from '../'
 
 export type Options<T> = {
-  locale?: Locale,
-  weight?: Array<[T, number]>,
-  ...ChooseOptions
+  locale?: string,
+  weight?: Array<[T, number]>
+} & ChooseOptions<T>
+
+type SelectorHandler<T> = {
+  data: Array<T>,
+  proc?: Array<T> => T
 }
+
+type Selector<T, O> = (db: DB<T>, options?: O) => (Array<T> | SelectorHandler<T>)
 
 export type CreateOptions<T, O> = {
-  name: string,
-  selector?: ((DB<T>, O) => (Array<T> | [Array<T>, (Array<T> => Array<T>)])),
-  db?: DB<T>
+  name?: string,
+  db?: DB<T>,
+  selector?: Selector<T, O>
 }
 
-export type DB<T> =
-  | Array<T>
-  | {
-    [key: string]: DB
-  }
+export type DB<T> = Array<T> | { [key: string]: Array<T> }
 
-export default function createFaker<T, O>({ name, db, selector = a => a }) {
+export default function createFaker({ name, db, selector = a => a }: any = {}) {
 
   // const context = require.context('../data', true, /\.json$/)
   // const locales = context.keys().reduce((acc, curr) => {
@@ -34,7 +36,7 @@ export default function createFaker<T, O>({ name, db, selector = a => a }) {
 
   const locales = ['en', 'zh']
 
-  return function createFaker1(options: O = {}): T {
+  return function createFaker1(options?: any = {}): any {
     const { locale, weight, test, include, exclude } = options
 
     let data = db
@@ -46,6 +48,12 @@ export default function createFaker<T, O>({ name, db, selector = a => a }) {
             `locale "${locale}" not supports, should one of ${locales.toString()}`
           )
         }
+      }
+
+      if(!name) {
+        throw new Error(
+          `The name not provide`
+        )
       }
 
       const loc = locale || oneof(locales)
@@ -64,21 +72,21 @@ export default function createFaker<T, O>({ name, db, selector = a => a }) {
     /**
      * select sub set
      */
-    const res = selector(data, options)
-
-    let proc = oneof
-
-    if(res.data) {
-      data = res.data
-      proc = res.proc
-    } else {
-      data = res
+    if(!data) {
+      throw new Error(
+        `No data found`
+      )
     }
+
+    const res = selector(data, options)
+    const { data: _data, proc } = Array.isArray(res)
+          ? { data: res, proc: oneof }
+          : res
 
     /**
      * apply choose, ensure more then one element in the dataset.
      */
-    data = choose({ test, include, exclude })(data)
+    data = choose({ test, include, exclude })(_data)
 
     if(0 === data.length) {
       throw new Error(

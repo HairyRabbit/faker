@@ -9,9 +9,8 @@ import boolean from './boolean'
 import char from './char'
 
 export type Options = {
-  upcase: boolean,
-  ...FakerOptions
-}
+  upcase: boolean
+} & FakerOptions<string>
 
 export default function letter({ upcase, ...options }: Options = {}) {
   const cas = 'boolean' === typeof upcase ? upcase : boolean()

@@ -4,20 +4,20 @@
  * @flow
  */
 
-export type Options = {
-  test?: string | RegExp,
-  include?: Array<string>,
-  exclude?: Array<string>
+export type Options<T> = {
+  test?: T | RegExp,
+  include?: Array<T>,
+  exclude?: Array<T>
 }
 
-export default function choose({ test, include = [], exclude = [] }: Options = {}) {
+export default function choose<T>({ test, include = [], exclude = [] }: Options<T> = {}) {
   const call = test
-        ? ('string' === typeof test
-           ? (a => a === String(test))
-           : (a => test.test(a)))
+    ?(test instanceof RegExp
+      ? (a => test.test(String(a)))
+      : (a => a === test))
         : (a => true)
 
-  return function choose1(collects: Array<string>): Array<string> {
+  return function choose1(collects: Array<T>): Array<T> {
     return collects
       .filter(item => call(item) && Boolean(!~exclude.indexOf(item)))
       .concat(include)

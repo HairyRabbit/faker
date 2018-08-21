@@ -8,11 +8,10 @@ import { pick, oneof, repeat, createFaker, type Options as FakerOptions } from '
 
 export type Options = {
   gender?: 1 | 2,
-  length?: 1 | 2,
-  ...FakerOptions
-}
+  length?: 1 | 2
+} & FakerOptions<string>
 
-function selector(db, { locale, gender, length }: Options = {}): string {
+function selector(db, { locale, gender, length }: Options = {}) {
   const num = locale === 'zh' ? (length || oneof([1, 2])) : 1
   const key = `gender_${gender || oneof([1, 2])}`
 

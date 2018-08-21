@@ -9,10 +9,9 @@ import letter from './letter'
 import boolean from './boolean'
 
 export type Options = {
-  min: number,
-  max: number,
-  ...FakerOptions
-}
+  min?: number,
+  max?: number,
+} & FakerOptions<string>
 
 export default function string({ min = 4, max = 16, ...options }: Options = {}) {
   let num

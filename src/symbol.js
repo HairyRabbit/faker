@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { repeat, pick, oneof, createFaker, typeof Options as FakerOptions } from './'
+import { repeat, pick, oneof, createFaker, type Options as FakerOptions } from './'
 
 export const db = '!@#$%^&*._+~,?'.split('')
 

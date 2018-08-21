@@ -6,13 +6,15 @@
 <PROJECT_ROOT>/bin/.*
 <PROJECT_ROOT>/tests/.*
 <PROJECT_ROOT>/assets/.*
-# <PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/data/.*
+<PROJECT_ROOT>/node_modules/.*
 
 [include]
-# <PROJECT_ROOT>/node_modules/@rabbitcc/core/.*
+
 
 [libs]
 
 
 [options]
 module.ignore_non_literal_requires=true
+module.name_mapper.extension='json' -> '<PROJECT_ROOT>/src/mock/json'

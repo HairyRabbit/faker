@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { repeat, pick, oneof, type Locale } from './'
+import { repeat, pick, oneof } from './'
 
 export const db = [
   "北京锐火鑫源文化传媒有限公司",
@@ -750,7 +750,7 @@ export const db = [
 ]
 
 export type Options = {
-  locale: Locale
+  locale?: string
 }
 
 export default function company({ locale }: Options = {}) {

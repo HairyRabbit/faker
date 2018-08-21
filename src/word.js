@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { repeat, pick, oneof, range, type Locale } from './'
+import { repeat, pick, oneof, range } from './'
 import char from './char'
 
 export const db = [
@@ -230,9 +230,9 @@ export const db = [
 ]
 
 export type Options = {
-  locale: Locale,
-  min: number,
-  max: number
+  locale?: string,
+  min?: number,
+  max?: number
 }
 
 export default function word({ locale, min, max }: Options = {}): string {

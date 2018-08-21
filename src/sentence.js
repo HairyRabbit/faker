@@ -4,11 +4,11 @@
  * @flow
  */
 
-import { repeat, pick, oneof, range, type Locale } from './'
+import { repeat, pick, oneof, range } from './'
 import word from './word'
 
 export type Options = {
-
+  locale?: string
 }
 
 export default function sentence({ locale }: Options = {}) {

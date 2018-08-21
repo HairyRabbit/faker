@@ -4,26 +4,9 @@
  * @flow
  */
 
-import { repeat, oneof, createFaker, type Options as FakerOptions } from './'
-import boolean from './boolean'
+import { repeat, oneof, createFaker } from './'
 
 export const db = 'abcdefghijklmnopqrstuvwxyz'.split('')
-
-export type Options = {
-  upcase?: boolean,
-  ...FakerOptions
-}
-
-function selector({ upcase }: Options = {}): string {
-  const cas = 'boolean' === typeof upcase ? upcase : boolean()
-  const gen = oneof(db)
-
-  if(cas) {
-    return gen.toUpperCase()
-  }
-
-  return gen
-}
 
 const faker = createFaker({ db })
 
