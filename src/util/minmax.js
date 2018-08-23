@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { oneof, range } from '../'
+import { random } from '../'
 
 export default function minmax(dmin: number, dmax: number, min?: number = dmin, max?: number = dmax): number {
   let num
@@ -19,7 +19,7 @@ export default function minmax(dmin: number, dmax: number, min?: number = dmin, 
     return num
   }
 
-  return oneof(range(min || dmin, max || dmax))
+  return random(min || dmin, max || dmax)
 }
 
 

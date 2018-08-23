@@ -4,19 +4,14 @@
  * @flow
  */
 
-import { repeat, pick, oneof, range, minmax, createFaker, type Options as FakerOptions } from './'
+import { repeat, pick, oneof, minmax, createFaker } from './'
 import letter from './letter'
-
-export type Options = {
-  min?: number,
-  max?: number
-} & FakerOptions<string>
 
 const fake = createFaker('word', {
   en: {
-    proc(_, { min, max }) {
+    proc(_, { min, max, ...options }) {
       const len = minmax(3, 6, min, max)
-      return repeat(len, () => letter({ upcase: false })).join('')
+      return repeat(len, () => letter({ upcase: false, ...options })).join('')
     }
   },
   zh: {
@@ -29,19 +24,6 @@ const fake = createFaker('word', {
 })
 
 export default fake
-
-// export default function word({ locale, min, max, ...options }: Options = {}): string {
-//   const loc = locale || oneof(['en', 'zh'])
-
-//   if('en' === loc) {
-//     const len = minmax(3, 6, min, max)
-//     return repeat(len, () => letter({ upcase: false, ...options })).join('')
-//   }
-
-//   const len = minmax(1, 4, min, max)
-//   const fake = createFaker({ name: 'word' })
-//   return repeat(len, () => fake({ locale: loc, ...options })).join('')
-// }
 
 
 /**
@@ -68,7 +50,7 @@ describe('random word', function() {
   })
 
   it('should gen random word with min options', function() {
-    repeat(100, () => {
+    repeat(1e3, () => {
       const gen = fake({ min: 5 })
       assert(gen.length >= 5)
     })

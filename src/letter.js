@@ -4,24 +4,27 @@
  * @flow
  */
 
-import { repeat, type Options as FakerOptions } from './'
+import { repeat, createFaker } from './'
 import boolean from './boolean'
 import char from './char'
 
-export type Options = {
-  upcase: boolean
-} & FakerOptions<string>
+const fake = createFaker('letter', {
+  default: {
+    proc(_, { upcase, ...options }) {
+      const gen = char(options)
 
-export default function letter({ upcase, ...options }: Options = {}) {
-  const cas = 'boolean' === typeof upcase ? upcase : boolean()
-  const gen = char(options)
+      const cas = 'boolean' === typeof upcase ? upcase : boolean()
 
-  if(!cas) {
-    return gen
+      if(!cas) {
+        return gen
+      }
+
+      return gen.toUpperCase()
+    }
   }
+})
 
-  return gen.toUpperCase()
-}
+export default fake
 
 
 /**
@@ -32,14 +35,16 @@ import assert from 'assert'
 
 describe('random letter', function() {
   it('should gen random letter', function() {
-    repeat(100, () => {
-      assert(/[a-zA-Z]+/.test(letter()))
+    repeat(1e3, () => {
+      const gen = fake()
+      assert(/[a-zA-Z]+/.test(gen))
     })
   })
 
   it('should gen random letter and uppercased', function() {
-    repeat(100, () => {
-      assert(/[A-Z]+/.test(letter({ upcase: true })))
+    repeat(1e3, () => {
+      const gen = fake({ upcase: true })
+      assert(/[A-Z]+/.test(gen))
     })
   })
 })

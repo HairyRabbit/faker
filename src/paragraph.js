@@ -4,24 +4,25 @@
  * @flow
  */
 
-import { repeat, pick, oneof, range } from './'
+import { repeat, minmax, createFaker } from './'
 import sentence from './sentence'
 
-export type Options = {
-  locale?: string
-}
-
-export default function paragraph({ locale }: Options = {}) {
-  const loc = locale || oneof(['en', 'zh'])
-
-  const gen = repeat(oneof(range(3, 18)), () => sentence({ locale: loc }))
-
-  if('en' === loc) {
-    return gen.join(' ')
+const fake = createFaker('paragraph', {
+  en: {
+    proc(_, { min, max, ...options }) {
+      const len = minmax(3, 18, min, max)
+      return repeat(len, () => sentence(options)).join(' ')
+    }
+  },
+  zh: {
+    proc(_, { min, max, ...options }) {
+      const len = minmax(5, 20, min, max)
+      return repeat(len, () => sentence(options)).join('')
+    }
   }
+})
 
-  return gen.join('')
-}
+export default fake
 
 
 /**
@@ -32,8 +33,8 @@ import assert from 'assert'
 
 describe('random paragraph', function() {
   it('should gen random paragraph', function() {
-    repeat(100, () => {
-      const gen = paragraph()
+    repeat(1e3, () => {
+      const gen = fake()
       assert(gen)
     })
   })

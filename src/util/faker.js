@@ -59,21 +59,22 @@ export default function createFaker<T>(name: string, provider: Provider<T> = {})
       weight
     } = options
 
+    const loc = data[locale] ? locale : defaultLocale
+
     const {
       pre = (a, _) => a,
       proc = (d, _) => oneof(d),
       post = (a, _) => a
-    } = provider[locale] || {}
+    } = provider[loc] || {}
 
-    const data1 = data[locale]
+    const data1 = data[loc]
     const data2 = pre(data1, options)
     const data3 = (test || include || exclude)
           ? choose({ test, include, exclude })(data2)
           : data2
-
-    let data4 = weight && Array.isArray(weight) && weight.length > 0
-        ? disposeWeight(data3, weight)
-        : data3
+    const data4 = (weight && Array.isArray(weight) && weight.length > 0)
+          ? disposeWeight(data3, weight)
+          : data3
 
     if(!Array.isArray(data4)) {
       return post(data4, options)

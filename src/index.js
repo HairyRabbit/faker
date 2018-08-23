@@ -47,6 +47,11 @@ export { default as symbol } from './symbol'
 export { default as regexp } from './regexp'
 
 /**
+ * date
+ */
+export { default as date } from './date'
+
+/**
  * text
  */
 export { default as word } from './word'
@@ -59,8 +64,4 @@ export { default as paragraph } from './paragraph'
 export { default as firstname } from './firstname'
 export { default as lastname } from './lastname'
 export { default as fullname } from './fullname'
-
-/**
- * others
- */
 export { default as avatar } from './avatar'

@@ -4,24 +4,27 @@
  * @flow
  */
 
-import { repeat, pick, oneof, range } from './'
+import { repeat, pick, oneof, range, minmax, createFaker } from './'
 import word from './word'
 
-export type Options = {
-  locale?: string
-}
-
-export default function sentence({ locale }: Options = {}) {
-  const loc = locale || oneof(['en', 'zh'])
-
-  if('en' === loc) {
-    return repeat(oneof(range(8, 14)), () => word({ locale: loc }))
-      .join(' ')
-      .replace(/^([^])/, (_, a) => a.toUpperCase()) + '.'
+const fake = createFaker('sentence', {
+  en: {
+    proc(_, { min, max, ...options }) {
+      const len = minmax(8, 14, min, max)
+      return repeat(len, () => word(options))
+        .join(' ')
+        .replace(/^([^])/, (_, a) => a.toUpperCase()) + '.'
+    }
+  },
+  zh: {
+    proc(_, { min, max, ...options }) {
+      const len = minmax(3, 15, min, max)
+      return repeat(len, () => word(options)).join('') + '。'
+    }
   }
+})
 
-  return repeat(oneof(range(3, 15)), () => word({ locale: loc })).join('') + '。'
-}
+export default fake
 
 
 /**
@@ -32,8 +35,8 @@ import assert from 'assert'
 
 describe('random sentence', function() {
   it('should gen random sentence', function() {
-    repeat(100, () => {
-      const gen = sentence()
+    repeat(1e3, () => {
+      const gen = fake()
       assert(gen)
     })
   })
