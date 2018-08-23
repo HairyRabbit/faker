@@ -25,12 +25,12 @@ export default {
 
   ],
   externals: [
-    function(ctx, req, cb) {
-      if(/\.json$/.test(req)) {
-        return cb(null, './data/' + req)
-      }
+    // function(ctx, req, cb) {
+    //   if(/\.json$/.test(req)) {
+    //     return cb(null, './data/' + req)
+    //   }
 
-      return cb()
-    }
+    //   return cb()
+    // }
   ]
 }

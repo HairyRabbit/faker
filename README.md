@@ -19,7 +19,9 @@ faker
   - [x] `char({ upcase })`
   - [x] `word({ locale, min, max })`
   - [x] `sentence({ locale, min, max })`
+  - [x] `title({ locale, min, max })`
   - [x] `paragraph({ locale, min, max })`
+  - [x] `password({ locale, min, max })`
 - date
   - [x] `date({ min, max })`
 - person
@@ -27,3 +29,6 @@ faker
   - [x] `lastname({ locale, sex, len })`
   - [x] `fullname({ firstname, lastname, locale, gender, length })`
   - [x] `avatar()`
+- phone
+  - [x] `teloperators()`
+  - [x] `phone({ operator, country, network, area, user, format })`

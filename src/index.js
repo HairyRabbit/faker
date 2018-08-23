@@ -56,7 +56,9 @@ export { default as date } from './date'
  */
 export { default as word } from './word'
 export { default as sentence } from './sentence'
+export { default as title } from './title'
 export { default as paragraph } from './paragraph'
+export { default as password } from './password'
 
 /**
  * person
@@ -65,3 +67,9 @@ export { default as firstname } from './firstname'
 export { default as lastname } from './lastname'
 export { default as fullname } from './fullname'
 export { default as avatar } from './avatar'
+
+/**
+ * telphone
+ */
+export { default as teloperators } from './teloperators'
+export { default as phone } from './phone'
