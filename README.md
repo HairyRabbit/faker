@@ -17,12 +17,13 @@ faker
   - [x] `symbol()`
 - text
   - [x] `char({ upcase })`
-  - [x] `word({ locale })`
-  - [x] `sentence({ locale })`
-  - [x] `paragraph({ locale })`
+  - [x] `word({ locale, min, max })`
+  - [x] `sentence({ locale, min, max })`
+  - [x] `paragraph({ locale, min, max })`
+- date
+  - [x] `date({ min, max })`
 - person
   - [x] `firstname({ locale })`
   - [x] `lastname({ locale, sex, len })`
-  - [x] `fullname({ firstname, lastname, locale, gender, len })`
-- other
+  - [x] `fullname({ firstname, lastname, locale, gender, length })`
   - [x] `avatar()`
