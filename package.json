@@ -1,7 +1,7 @@
 {
   "name": "@rabbitcc/faker",
   "version": "0.0.1",
-  "description": "A log tool",
+  "description": "Faker tool",
   "main": "index.js",
   "scripts": {
     "start": "cross-env DEBUG=true npm run build",
