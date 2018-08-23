@@ -6,7 +6,7 @@
 
 import { oneof, range } from '../'
 
-export default function minmax(dmin: number, dmax: number, min: ?number, max: ?number): number {
+export default function minmax(dmin: number, dmax: number, min?: number = dmin, max?: number = dmax): number {
   let num
 
   if(min >= dmax) {
@@ -41,7 +41,7 @@ describe('minmax()', function() {
   })
 
   it('should gen number between min and max, override max', function() {
-    const gen = minmax(1, 10, null, 20)
+    const gen = minmax(1, 10, undefined, 20)
     assert(gen >= 1 && gen <= 20)
   })
 
@@ -56,7 +56,7 @@ describe('minmax()', function() {
   })
 
   it('should gen number between min and max, overload min with max', function() {
-    const gen = minmax(10, 20, null, 5)
+    const gen = minmax(10, 20, undefined, 5)
     assert(gen === 5)
   })
 })

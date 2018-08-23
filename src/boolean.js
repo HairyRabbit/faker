@@ -23,7 +23,7 @@ import assert from 'assert'
 
 describe('random boolean', function() {
   it('should gen random boolean', function() {
-    repeat(100, () => {
+    repeat(1e3, () => {
       const gen = fake()
       assert('boolean' === typeof gen)
       assert(~db.indexOf(gen))

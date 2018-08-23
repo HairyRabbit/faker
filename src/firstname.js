@@ -11,7 +11,7 @@ export type Options = {
   length?: 1 | 2
 } & FakerOptions<string>
 
-function pre(data, { gender }: Options = {}) {
+function pre(data, { gender }) {
   const genderKey = `gender_${gender || oneof([1, 2])}`
   return data[genderKey]
 }
@@ -24,7 +24,7 @@ const fake = createFaker('firstname', {
   zh: {
     db: 'require',
     pre,
-    proc(data, { length }: Options = {}) {
+    proc(data, { length }) {
       const num = length || oneof([1, 2])
       return pick(num, data).join('')
     }

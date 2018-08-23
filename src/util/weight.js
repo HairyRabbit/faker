@@ -4,11 +4,16 @@
  * @flow
  */
 
-import { random, choose } from '../'
+import { random, choose, type ChooseOptions } from '../'
 
-export type Options<T> = [T, number]
+export type Options<T> = Array<[T, number]>
 
-export default function weight<T>(data: Array<T> = [], options: Options<T> = []): T | Array<T> {
+export default function weight<T>(data: Array<T> = [], options?: Options<T> = []): T | Array<T> {
+
+  if(!options.length) {
+    return data
+  }
+
   if(!data.length) {
     throw new Error(
       `No data found`
@@ -52,7 +57,7 @@ export default function weight<T>(data: Array<T> = [], options: Options<T> = [])
 
     if(!Boolean(~data.indexOf(key))) {
       throw new Error(
-        `The weight key ${key} not exists in data set.`
+        `The weight key ${String(key)} not exists in data set.`
       )
     }
 
@@ -62,7 +67,9 @@ export default function weight<T>(data: Array<T> = [], options: Options<T> = [])
   /**
    * not matched given key, goto next step
    */
-  return choose({
+  const chooseOptions: ChooseOptions<T> = {
     exclude: options.map(w => w[0])
-  })(data)
+  }
+
+  return choose(chooseOptions)(data)
 }

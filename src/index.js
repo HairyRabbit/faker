@@ -18,7 +18,7 @@ export { default as weight } from './util/weight'
 export { default as createFaker } from './util/faker'
 export type { Options as ChooseOptions } from './util/choose'
 export type { Options as WeightOptions } from './util/weight'
-export type { Options as Options, DB } from './util/faker'
+export type { Options as Options } from './util/faker'
 
 /**
  * boolean
