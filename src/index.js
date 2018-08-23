@@ -12,9 +12,12 @@ export { default as random } from './util/random'
 export { default as pick } from './util/pick'
 export { default as oneof } from './util/oneof'
 export { default as range } from './util/range'
+export { default as minmax } from './util/minmax'
 export { default as choose } from './util/choose'
+export { default as weight } from './util/weight'
 export { default as createFaker } from './util/faker'
 export type { Options as ChooseOptions } from './util/choose'
+export type { Options as WeightOptions } from './util/weight'
 export type { Options as Options, DB } from './util/faker'
 
 /**

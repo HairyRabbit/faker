@@ -30,8 +30,8 @@ export default function paragraph({ locale }: Options = {}) {
 
 import assert from 'assert'
 
-describe('random sentence', function() {
-  it('should gen random word', function() {
+describe('random paragraph', function() {
+  it('should gen random paragraph', function() {
     repeat(100, () => {
       const gen = paragraph()
       assert(gen)

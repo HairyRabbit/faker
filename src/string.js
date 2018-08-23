@@ -4,7 +4,7 @@
  * @flow
  */
 
-import { repeat, pick, random, range, type Options as FakerOptions } from './'
+import { repeat, minmax, type Options as FakerOptions } from './'
 import letter from './letter'
 import boolean from './boolean'
 
@@ -13,16 +13,8 @@ export type Options = {
   max?: number,
 } & FakerOptions<string>
 
-export default function string({ min = 4, max = 16, ...options }: Options = {}) {
-  let num
-
-  if(min >= max) {
-    num = min
-  } else if(max <= min) {
-    num = max
-  }
-
-  const len = num ? num : random(min, max)
+export default function string({ min, max, ...options }: Options = {}) {
+  const len = minmax(4, 16, min, max)
 
   return repeat(len, () => letter({ upcase: boolean(), ...options })).join('')
 }

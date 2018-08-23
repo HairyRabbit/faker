@@ -30,8 +30,8 @@ export default function sentence({ locale }: Options = {}) {
 
 import assert from 'assert'
 
-describe('random word', function() {
-  it('should gen random word', function() {
+describe('random sentence', function() {
+  it('should gen random sentence', function() {
     repeat(100, () => {
       const gen = sentence()
       assert(gen)

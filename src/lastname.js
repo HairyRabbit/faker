@@ -6,8 +6,16 @@
 
 import { repeat, createFaker } from './'
 
-const faker = createFaker({ name: 'lastname' })
-export default faker
+const fake = createFaker('lastname', {
+  en: {
+    db: 'require'
+  },
+  zh: {
+    db: 'require'
+  }
+})
+
+export default fake
 
 
 /**
@@ -19,16 +27,16 @@ import assert from 'assert'
 describe('random lastname', function() {
   it('should gen lastname', function() {
     repeat(100, () => {
-      const gen = faker()
+      const gen = fake()
       assert(gen)
     })
   })
 
   it('should gen lastname with locale options', function() {
     repeat(100, () =>{
-      const gen = faker({ locale: 'en' })
+      const gen = fake({ locale: 'en' })
       assert(/[a-zA-Z]/.test(gen))
-      const gen2 = faker({ locale: 'zh' })
+      const gen2 = fake({ locale: 'zh' })
       assert(!/[a-zA-Z]/.test(gen2))
     })
   })

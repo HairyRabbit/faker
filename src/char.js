@@ -8,9 +8,11 @@ import { repeat, oneof, createFaker } from './'
 
 export const db = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
-const faker = createFaker({ db })
+const fake = createFaker('char', {
+  default: { db }
+})
 
-export default faker
+export default fake
 
 
 /**
@@ -22,7 +24,7 @@ import assert from 'assert'
 describe('random char', function() {
   it('should gen random char', function() {
     repeat(100, () => {
-      const gen = faker()
+      const gen = fake()
       assert('string' === typeof gen)
       assert(1 === gen.length)
       assert(/[a-zA-Z]+/.test(gen))

@@ -8,9 +8,11 @@ import { repeat, pick, oneof, createFaker, type Options as FakerOptions } from '
 
 export const db = '!@#$%^&*._+~,?'.split('')
 
-const faker = createFaker({ db })
+const fake = createFaker('symbol', {
+  default: { db }
+})
 
-export default faker
+export default fake
 
 
 /**
@@ -22,7 +24,7 @@ import assert from 'assert'
 describe('random symbol', function() {
   it('should gen random symbol', function() {
     repeat(100, () => {
-      const gen = faker()
+      const gen = fake()
       assert(Boolean(~db.indexOf(gen)))
     })
   })
