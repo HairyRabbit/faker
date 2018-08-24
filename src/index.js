@@ -80,7 +80,7 @@ export { default as phone } from './phone'
 export { default as province } from './province'
 export { default as prefecture } from './prefecture'
 export { default as county } from './county'
-
+export { default as address } from './address'
 
 /**
  * web
