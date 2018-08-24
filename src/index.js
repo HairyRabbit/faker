@@ -73,3 +73,13 @@ export { default as avatar } from './avatar'
  */
 export { default as teloperators } from './teloperators'
 export { default as phone } from './phone'
+
+/**
+ * address
+ */
+
+
+/**
+ * web
+ */
+export { default as email } from './email'

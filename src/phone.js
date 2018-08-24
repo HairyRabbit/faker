@@ -7,8 +7,7 @@
  * @flow
  */
 
-import { repeat, oneof, createFaker } from './'
-import { teloperators, natural } from './'
+import { repeat, oneof, createFaker, teloperators, natural } from './'
 
 const fake = createFaker('phone', {
   zh: {
@@ -40,7 +39,6 @@ const fake = createFaker('phone', {
 function make(): string {
   return repeat(4, () => natural({ max: 9 })).map(String).join('')
 }
-
 
 export default fake
 

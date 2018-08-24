@@ -32,3 +32,5 @@ faker
 - phone
   - [x] `teloperators()`
   - [x] `phone({ operator, country, network, area, user, format })`
+- web
+  - [x] `email({ local, domain })`
