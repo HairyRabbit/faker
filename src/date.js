@@ -8,12 +8,54 @@ import { repeat, minmax, createFaker } from './'
 
 const fake = createFaker('date', {
   default: {
-    proc(_, { min, max }) {
-      const num = minmax(0, Date.now(), +min, +max)
-      return new Date(num)
+    pre(data, { min, max, format }) {
+      if(isDate(min)) {
+        throw new Error(
+          `The min options should be JS Date Object, but got ${min}`
+        )
+      }
+
+      if(isDate(max)) {
+        throw new Error(
+          `The min options should be JS Date Object, but got ${max}`
+        )
+      }
+
+      return data
+    },
+    proc(_, { min, max, format }) {
+      /**
+       * date format, follow moment.js
+       *
+       * +-------+-----------------+
+       * | Token | Output          |
+       * +-------+-----------------+
+       * | M     | 1 2             |
+       * | Mo    | 1st 2nd         |
+       * | MM    | 01 02           |
+       * | MMM   | Jan Feb         |
+       * | MMMM  | January Febrary |
+       * |-------+-----------------|
+       * | Q     | 1 2             |
+       * | Qo    | 1st 2nd         |
+       * |-------+-----------------|
+       * | D     | 1 2             |
+       * | Do    | 1st 2nd         |
+       * | DD    | 01 02           |
+       * | DDDo  | 1st 2nd         |
+       * | DDDD  | 001 002         |
+       * |-------+-----------------|
+       */
+      const gen = minmax(0, Date.now(), +min, +max)
+      return new Date(gen)
     }
   }
 })
+
+function isDate(input): boolean %checks {
+  return input instanceof Date
+}
+
 
 export default fake
 
