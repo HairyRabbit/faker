@@ -35,11 +35,10 @@ export default function createFaker<T>(name: string, provider: Provider<T> = {})
   let defaultLocale: string = ''
 
   keys.forEach(locale => {
-    const { db = [], isDefault = false } = provider[locale] || {}
+    const { db = [], isDefault = false, setup = a => a } = provider[locale] || {}
 
-    data[locale] = 'require' === db
-      ? require(`../../data/${locale}/${name}.json`)
-      : db
+    const dataset = /^require/.test(db) ? requireDB(db, locale) : db
+    data[locale] = setup(dataset)
 
     if(isDefault) {
       defaultLocale = locale
@@ -48,6 +47,12 @@ export default function createFaker<T>(name: string, provider: Provider<T> = {})
 
   if(!defaultLocale) {
     defaultLocale = keys[0]
+  }
+
+  function requireDB<T>(str: string, locale: string): DB<T> {
+    const regex = /^require(?::([^]+))?/
+    const ma = str.match(regex)
+    return require(`../../data/${locale}/${ma[1] || name}.json`)
   }
 
   return function createFaker1(options: Options<T> = {}): T {

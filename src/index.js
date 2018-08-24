@@ -75,8 +75,11 @@ export { default as teloperators } from './teloperators'
 export { default as phone } from './phone'
 
 /**
- * address
+ * location
  */
+export { default as province } from './province'
+export { default as prefecture } from './prefecture'
+export { default as county } from './county'
 
 
 /**
