@@ -13,7 +13,7 @@ const fake = createFaker('password', {
     db: [].concat(charDb, symbolDb),
     proc(db, { min, max }) {
       const len = minmax(6, 20, min, max)
-      return pick(len, db)
+      return pick(len, db).join('')
     }
   }
 })
