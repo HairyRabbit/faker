@@ -14,7 +14,7 @@ export const TELOPERATOR = {
 
 const fake = createFaker('teloperators', {
   zh: {
-    db: Object.values(TELOPERATOR).map(s => `china ${s}`)
+    db: Object.values(TELOPERATOR).map(s => `china ${String(s)}`)
   }
 })
 

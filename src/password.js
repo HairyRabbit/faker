@@ -25,7 +25,7 @@ export default fake
  * test
  */
 
-import * as assert from 'assert'
+import assert from 'assert'
 
 describe('random password', function() {
   it('should gen random password', function() {

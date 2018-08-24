@@ -17,9 +17,10 @@ type Provider<T> = {
   [locale: string]: {
     db?: string | DB<T>,
     isDefault?: boolean,
-    pre?: (data: { [string]: Array<T> }, options: *) => Array<T>,
-    proc?: (data: Array<T>, options: *) => T,
-    post?: (data: T, options: *) => T,
+    setup?: (data: *) => *,
+    pre?: (data: *, options: *) => *,
+    proc?: (data: *, options: *) => *,
+    post?: (data: *, options: *) => *,
   }
 }
 
@@ -37,7 +38,9 @@ export default function createFaker<T>(name: string, provider: Provider<T> = {})
   keys.forEach(locale => {
     const { db = [], isDefault = false, setup = a => a } = provider[locale] || {}
 
-    const dataset = /^require/.test(db) ? requireDB(db, locale) : db
+    const dataset = 'string' === typeof db && /^require/.test(db)
+          ? requireDB(db, locale)
+          : db
     data[locale] = setup(dataset)
 
     if(isDefault) {
@@ -52,7 +55,7 @@ export default function createFaker<T>(name: string, provider: Provider<T> = {})
   function requireDB<T>(str: string, locale: string): DB<T> {
     const regex = /^require(?::([^]+))?/
     const ma = str.match(regex)
-    return require(`../../data/${locale}/${ma[1] || name}.json`)
+    return require(`../../data/${locale}/${ma && ma[1] || name}.json`)
   }
 
   return function createFaker1(options: Options<T> = {}): T {

@@ -30,9 +30,9 @@ const fake = createFaker('address', {
   }
 })
 
-function toDivisionString(data: { [string]: string }, cn: string, format: boolean): string {
-  const pv = cn.substr(0, 2).padEnd(6, 0)
-  const pf = cn.substr(0, 4).padEnd(6, 0)
+function toDivisionString(data: { [key: string]: string }, cn: string, format: boolean): string {
+  const pv = cn.substr(0, 2).padEnd(6, '0')
+  const pf = cn.substr(0, 4).padEnd(6, '0')
 
   return [data[pv], data[pf], data[cn]].join(format ? ' ' : '')
 }

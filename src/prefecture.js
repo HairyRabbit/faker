@@ -22,7 +22,7 @@ const fake = createFaker('prefecture', {
           return
         }
 
-        const upcode = key.substr(0, 2).padEnd(6, 0)
+        const upcode = key.substr(0, 2).padEnd(6, '0')
         const val = {
           code: key,
           value: db[key],

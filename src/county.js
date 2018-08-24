@@ -23,8 +23,8 @@ const fake = createFaker('county', {
           return
         }
 
-        const up1code = key.substr(0, 4).padEnd(6, 0)
-        const up2code = key.substr(0, 2).padEnd(6, 0)
+        const up1code = key.substr(0, 4).padEnd(6, '0')
+        const up2code = key.substr(0, 2).padEnd(6, '0')
         const val = {
           code: key,
           value: db[key],
