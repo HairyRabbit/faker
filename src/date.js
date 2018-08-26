@@ -90,7 +90,7 @@ function datefmt(tpl: string): * {
     Mo: ({ month }) => toNumeral(month),
     M: ({ month }) => month.toString(),
     QQ: ({ quarter }) => quarter.toString().padStart(2, '0'),
-    Qo: ({ quarter }) => toNumeral(quarter.toString()),
+    Qo: ({ quarter }) => toNumeral(quarter),
     Q: ({ quarter }) => quarter.toString(),
     DDDD: ({ dayofyear }) => dayofyear.toString().padStart(3, '0'),
     DDDo: ({ dayofyear }) => toNumeral(dayofyear),
@@ -257,16 +257,16 @@ function datefmt(tpl: string): * {
         }
         make(T.s, 1)
         return
-      case match('s'):
-        if(match('s')) {
-          if(match('s')) {
-            make(T.sss, 3)
+      case match('S'):
+        if(match('S')) {
+          if(match('S')) {
+            make(T.SSS, 3)
             return
           }
-          make(T.ss, 2)
+          make(T.SS, 2)
           return
         }
-        make(T.s, 1)
+        make(T.S, 1)
         return
       case match('X'):
         make(T.X, 1)
@@ -315,7 +315,7 @@ function datefmt(tpl: string): * {
     }
     if(stack.length) {
       const str = stack.join('')
-      tokens.push(() => str)
+      tokens.push(ctx => str)
     }
     if(token) {
       tokens.push(token)
@@ -363,7 +363,7 @@ function datefmt(tpl: string): * {
   }
 }
 
-function toMonth(m: number): [string, string] {
+function toMonth(m: number): string {
   switch(m) {
     case 1: return 'January'
     case 2: return 'February'
@@ -427,7 +427,7 @@ function toQuarter(m: number): number {
 
 function ofYear(year: number, time: number, week?: number = 1): number {
   return Math.floor(
-    (time - Date.parse(year)) / (1000 * 60 * 60 * 24 * week)
+    (time - Date.parse(year.toString())) / (1000 * 60 * 60 * 24 * week)
   ) + 1
 }
 

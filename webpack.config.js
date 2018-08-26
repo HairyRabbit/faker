@@ -19,7 +19,7 @@ export default {
     }]
   },
   optimization: {
-    minimize: false
+    // minimize: false
   },
   plugins: [
 
