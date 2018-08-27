@@ -64,7 +64,7 @@ const fake = createFaker('date', {
        * | WW    | 01 02 .. 53     |
        * +-------+-----------------+
        */
-      const gen = minmax(0, Date.now(), +min, +max)
+      const gen = minmax(0, Date.now(), Date.parse(min), Date.parse(max))
       const date = new Date(gen)
 
       if(!format) {
@@ -80,7 +80,65 @@ function isDate(input): boolean %checks {
   return !isNaN(new Date(input))
 }
 
+type Context = {
+  year: number,
+  month: number,
+  week: number,
+  day: number,
+  hours: number,
+  minutes: number,
+  seconds: number,
+  milliseconds: number,
+  time: number,
+  quarter: number,
+  dayofyear: number,
+  weekofyear: number
+}
+
 function datefmt(tpl: string): * {
+  const tokens = parse(tpl)
+
+  return function datefmt1(date: Date): string {
+    /**
+     * from native Date api
+     */
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const week = date.getDay()
+    const day = date.getDate()
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+    const seconds = date.getSeconds()
+    const milliseconds = date.getMilliseconds()
+    const time = date.getTime()
+
+    /**
+     * compute more data
+     */
+    const quarter = toQuarter(month)
+    const dayofyear = ofYear(year, time)
+    const weekofyear = ofYear(year, time, 7)
+
+    const ctx = {
+      year,
+      month,
+      week,
+      day,
+      hours,
+      minutes,
+      seconds,
+      milliseconds,
+      time,
+      quarter,
+      dayofyear,
+      weekofyear
+    }
+
+    return tokens.map(tok => tok(ctx)).join('')
+  }
+}
+
+function parse(input: string): Array<(Context) => string> {
   const T = {
     YYYY: ({ year }) => year.toString(),
     YY: ({ year }) => year.toString().substr(2),
@@ -123,11 +181,15 @@ function datefmt(tpl: string): * {
     X: ({ time }) => Math.floor(time / 1000).toString()
   }
   const tokens = []
+  const curr = input.split('')
+
   let stack = []
-  const curr = tpl.split('')
+
   while(curr.length) {
     run()
   }
+
+  return tokens
 
   function run() {
     switch (true) {
@@ -138,9 +200,8 @@ function datefmt(tpl: string): * {
               make(T.YYYY, 4)
               return
             }
-            prev()
+            back()
           }
-
           make(T.YY, 2)
           return
         }
@@ -280,7 +341,7 @@ function datefmt(tpl: string): * {
     }
   }
 
-  function prev() {
+  function back() {
     curr.unshift(stack.pop())
   }
 
@@ -299,7 +360,7 @@ function datefmt(tpl: string): * {
       if (char === nn) {
         return true
       } else {
-        prev()
+        back()
         return false
       }
     } else {
@@ -321,45 +382,6 @@ function datefmt(tpl: string): * {
       tokens.push(token)
     }
     stack = []
-  }
-
-  return function datefmt1(date: Date): string {
-    /**
-     * from native Date api
-     */
-    const year = date.getFullYear()
-    const month = date.getMonth() + 1
-    const week = date.getDay()
-    const day = date.getDate()
-    const hours = date.getHours()
-    const minutes = date.getMinutes()
-    const seconds = date.getSeconds()
-    const milliseconds = date.getMilliseconds()
-    const time = date.getTime()
-
-    /**
-     * compute more data
-     */
-    const quarter = toQuarter(month)
-    const dayofyear = ofYear(year, time)
-    const weekofyear = ofYear(year, time, 7)
-
-    const ctx = {
-      year,
-      month,
-      week,
-      day,
-      hours,
-      minutes,
-      seconds,
-      milliseconds,
-      time,
-      quarter,
-      dayofyear,
-      weekofyear
-    }
-
-    return tokens.map(tok => tok(ctx)).join('')
   }
 }
 
@@ -435,11 +457,10 @@ function toAMOrPM(hours: number): string {
   return hours > 12 ? 'pm' : 'am'
 }
 
-
 function toNumeral(m: number): string {
   const str = m.toString()
 
-  switch(str.slice(-1)) {
+  switch(m.toString().slice(-1)) {
     case '1': return str + 'st'
     case '2': return str + 'nd'
     case '3': return str + 'rd'
