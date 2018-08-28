@@ -7,7 +7,7 @@
 import { repeat, pick, oneof, minmax, createFaker } from './'
 import letter from './letter'
 
-const fake = createFaker('word', {
+export const fake = createFaker('word', {
   en: {
     proc(_, { min, max, ...options }) {
       const len = minmax(3, 6, min, max)
