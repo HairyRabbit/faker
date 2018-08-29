@@ -6,7 +6,7 @@
 
 import { repeat, oneof, random, createFaker } from './'
 
-export const fake = createFaker('howlong', {
+export const fake = createFaker('ago', {
   en: {
     db: 'require',
     proc(db, { number }) {
@@ -77,22 +77,22 @@ export default fake
 
 import assert from 'assert'
 
-describe('random howlong', function() {
-  it('should gen random howlong', function() {
+describe('random ago', function() {
+  it('should gen random ago', function() {
     repeat(1e3, () => {
       const gen = fake()
       assert(/(just now|\d{1,2} (second|minute|hour|day|month|year)s? ago)/.test(gen))
     })
   })
 
-  it('should gen random howlong with locale options', function() {
+  it('should gen random ago with locale options', function() {
     repeat(1e3, () => {
       const gen = fake({ locale: 'zh' })
       assert(/(刚刚|\d{1,2} (秒|分钟|小时|天|月|年)前)/.test(gen))
     })
   })
 
-  it('should gen random howlong with number options', function() {
+  it('should gen random ago with number options', function() {
     repeat(1e3, () => {
       const gen = fake({ number: 10 })
       assert(/(just now|10 (second|minute|hour|day|month|year)s ago)/.test(gen))
