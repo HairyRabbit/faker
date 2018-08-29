@@ -55,5 +55,4 @@ describe('random word', function() {
       assert(gen.length >= 5)
     })
   })
-
 })

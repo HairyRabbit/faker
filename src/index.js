@@ -50,6 +50,7 @@ export { default as regexp } from './regexp'
  * date
  */
 export { default as date } from './date'
+export { default as howlong } from './howlong'
 
 /**
  * text
