@@ -24,7 +24,7 @@ faker
   - [x] `password({ locale, min, max })`
 - date
   - [x] `date({ min, max })`
-  - [x] `ago({ number })`
+  - [x] `ago({ locale, number })`
 - person
   - [x] `firstname({ locale })`
   - [x] `lastname({ locale, sex, len })`
